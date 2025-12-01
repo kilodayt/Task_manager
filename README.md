@@ -61,3 +61,5 @@
 
 - **Проверка фильтров через Postman**:
   - http://localhost:8091/tasks/?status=in_progress&due_date_after=2025-12-01&due_date_before=2025-12-20
+
+## Использовал ChatGPT для генерации скрипта по задержке запуска web в докере, а также багфисов (в пагинации, тестах, команды в docker-compose для запуска скрипта).
