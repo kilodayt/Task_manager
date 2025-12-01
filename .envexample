@@ -1,0 +1,13 @@
+SECRET_KEY = 'your-secret'
+
+DEBUG = True
+
+ALLOWED_HOSTS = "['*']"
+
+DB_NAME=task_manager
+DB_USER=user
+DB_PASSWORD=password
+DB_HOST=db
+DB_PORT=5432
+
+DJANGO_SETTINGS_MODULE=task_manager.settings

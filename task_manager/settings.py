@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import ast
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS')
+ALLOWED_HOSTS = ast.literal_eval(os.getenv('ALLOWED_HOSTS', '[]'))
 
 # Application definition
 
@@ -41,15 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Filters
-    'django_filters'
+    'django_filters',
     
     # REST
     'rest_framework',
     'rest_framework.authtoken',
-    'drf_spectacular'
+    'drf_spectacular',
 
     # Internal apps
-    'tasks'
+    'tasks',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -128,6 +130,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': [
         'rest_framework.pagination.PageNumberPagination',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SPECTACULAR_SETTINGS = {

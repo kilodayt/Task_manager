@@ -2,6 +2,9 @@ from django.urls import path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from .views import TaskListCreateAPIView, TaskDetailAPIView, TaskUpdateAPIView, TaskDeleteAPIView
 
+
+app_name = 'tasks'
+
 urlpatterns = [
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('swagger/', SpectacularSwaggerView.as_view(url_name='tasks:schema'), name='swagger'),

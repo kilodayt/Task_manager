@@ -1,4 +1,4 @@
-from django_filters import FilterSet, CharFilter, DateTimeFilter
+from django_filters import FilterSet, DateFilter, ChoiceFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import generics, permissions
@@ -9,9 +9,9 @@ from .serializers import TaskSerializer
 
 
 class TaskFilter(FilterSet):
-    status = CharFilter(choices=Task.STATUS_CHOICES)
-    due_date_after = DateTimeFilter(field_name='due_date', lookup_expr='gte')
-    due_date_before = DateTimeFilter(field_name='due_date', lookup_expr='lte')
+    status = ChoiceFilter(choices=Task.STATUS_CHOICES)
+    due_date_after = DateFilter(field_name='due_date', lookup_expr='gte')
+    due_date_before = DateFilter(field_name='due_date', lookup_expr='lte')
 
     class Meta:
         model = Task
@@ -28,7 +28,8 @@ class TaskListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = TaskSerializer
     filter_backends = (DjangoFilterBackend,)
-    filter_class = TaskFilter
+    filterset_class = TaskFilter
+    pagination_class = TaskPagination
 
     def get_queryset(self):
         user = self.request.user

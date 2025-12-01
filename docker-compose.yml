@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: sh -c "python manage.py runserver 0.0.0.0:8091"
+    volumes:
+      - .:/app
+    ports:
+      - "8091:8091"
+    depends_on:
+      - db
+    environment:
+      - DJANGO_SETTINGS_MODULE=task_manager.settings
+
+volumes:
+  postgres_data:
