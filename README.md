@@ -1,10 +1,63 @@
-docker-compose up -d 
+# Task Manager API
 
-docker-compose exec web python manage.py migrate
+## Структура проекта
 
-Swagger
-http://localhost:8091/tasks/swagger
+- `task_manager/` — Основная директория проекта.
+- `overdue_tasks/` — Приложение для обработки задач, помеченных как просроченные.
+- `tasks/` — Приложение для работы с задачами, включая модели, сериализаторы и представления.
 
-Postman 
-Проверка фильтров
-http://localhost:8091/tasks/?status=in_progress&due_date_after=2025-12-01&due_date_before=2025-12-20
+## Основные решения
+
+- **Django** используется для бэкенда, а **Django Rest Framework** — для создания API.
+- **PostgreSQL** используется в качестве базы данных.
+- API защищено с помощью **JWT** для аутентификации.
+- Используется фильтрация по статусу и сроку выполнения задач с возможностью пагинации.
+
+## Запуск
+
+1. Соберите контейнеры с помощью Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+
+2. Для создания суперпользователя, используйте команду:
+   ```bash
+   docker-compose exec web python manage.py createsuperuser
+   ```
+
+3. После того как контейнеры будут собраны, API будет доступен по адресу:
+   - http://localhost:8091/
+
+## Роуты
+
+- **Авторизация**:
+  - `POST /auth/token/` — для получения токенов.
+  - `POST /auth/token/refresh/` — для обновления токенов.
+
+- **Сервисы**:
+  - `POST /services/recalculate_overdue/` — обновление просроченных задач.
+
+- **Задачи**:
+  - `POST /tasks/` — создание задачи.
+  - `GET /tasks/` — получение списка задач.
+  - `PUT /tasks/{id}/update/` — обновление задачи.
+  - `PATCH /tasks/{id}/update/` — обновление задачи.
+  - `DELETE /tasks/{id}/delete/` — удаление задачи.
+
+## Тесты
+- **Авторизация**:
+  - `test_auth.py` — проверка авторизации.
+
+- **Сервисы**:
+  - `test_overdue.py` — проверка просроченных задач.
+
+- **Задачи**:
+  - `test_tasks.py` — проверка CRUD-операций с задачами.
+
+## Дополнительные ссылки
+
+- **Swagger UI** для API:
+  - http://localhost:8091/tasks/swagger/
+
+- **Проверка фильтров через Postman**:
+  - http://localhost:8091/tasks/?status=in_progress&due_date_after=2025-12-01&due_date_before=2025-12-20
