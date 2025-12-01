@@ -40,12 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Filters
+    'django_filters'
+    
     # REST
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_spectacular'
 
     # Internal apps
-
+    'tasks'
 ]
 
 MIDDLEWARE = [
@@ -117,7 +121,19 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
+    'DEFAULT_PAGINATION_CLASS': [
+        'rest_framework.pagination.PageNumberPagination',
+    ],
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Test task',
+    'DESCRIPTION': 'Test task for Alliance',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
 
