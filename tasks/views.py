@@ -33,7 +33,7 @@ class TaskListCreateAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Task.objects.filter(owner=user)
+        return Task.objects.filter(owner=user).order_by('created_at')
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
